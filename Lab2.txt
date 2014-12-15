@@ -1,0 +1,35 @@
+Pkt. 5
+SELECT LastName FROM Employees WHERE Region is null;
+
+Pkt. 6
+SELECT ProductName FROM Products WHERE UnitPrice = (SELECT MIN(UnitPrice) FROM Products)
+UNION
+SELECT ProductName FROM Products WHERE UnitPrice = (SELECT MAX(UnitPrice) FROM Products)
+
+Pkt. 7
+SELECT ProductName FROM Products WHERE UnitPrice > (SELECT AVG(UnitPrice) FROM Products)
+SELECT SUM(Freight) FROM Orders
+
+Pkt.8
+SELECT DISTINCT p.ProductName, p.ProductID from Products as p
+INNER JOIN [Order Details] as odon p.ProductID = od.ProductID
+INNER JOIN Orders as o on od.OrderID = o.OrderID
+WHERE DATENAME (WEEKDAY, o.OrderDate) = 'Sunday' or DATENAME (WEEKDAY, o.OrderDate) = 'Saturday'
+
+
+SELECT CategoryID, AVG(UnitPrice) AS "Ceny średnie" FROM Products GROUP BY CategoryID
+
+Pkt.9
+
+SELECT CompanyName FROM Customers
+SELECT UnitPrice*Quantity- Discount FROM OrderDetails
+
+Pkt.10
+CREATE VIEW WykazProduktow AS
+(SELECT ProductID, Count(ProductID) AS IloscZamowionych FROM OrderDetails
+GROUP BY ProductID);
+
+SELECT Products.ProductName, WykazProduktow.IloscZamowionych FROM Products 
+INNER JOIN WykazProduktow ON Products.ProductID = WykazProduktow.ProductID;
+
+
